@@ -1,0 +1,35 @@
+
+<span>
+
+  <a href="{% url "home-url" %}"><i class="uil uil-backward"></i> Return</a> <h4 class="mt-2 mb-3">Chat</h4>
+
+</span>
+<div class="user-list">
+  {% for profile in profiles %}
+  
+  <a class="user d-block mb-2 py-2 " href="{% url "chat" profile.id %}">
+    <div class="d-flex align-items-center gap-2">
+      <div class="avatar d-flex align-items-center justify-content-center fw-bold text-white"><img src="{{ profile.profile_picture.url }}" alt="Avatar" class="avatar"></div>
+      <div>
+        {% if profile.user.username %}
+        
+        <span class="name d-block">{{ profile.user.username }}</span>
+        {% else %}
+        <span class="name d-block">{{ user.username }}</span>
+        {% endif %}
+      </div>
+    </div>
+  </a>
+
+  {% endfor %}
+    <div class="separator mb-2"></div>
+</div>
+
+<style>
+  .avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+ }
+</style>

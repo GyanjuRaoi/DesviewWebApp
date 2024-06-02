@@ -1,0 +1,23 @@
+{% extends "base/users_base.html" %}
+
+{% block content %}
+
+    <div class="from-group no-margin">
+        <form class="form-signin" method="post">
+            <h4>Register here</h4>
+            {% if messages %}
+                <p>{{ messages.error }}</p>
+            {% endif %}
+
+            {% csrf_token %}
+            
+            {{form}}
+
+            <div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            <div>    
+            
+        </form>
+    </div>
+
+{% endblock content %}

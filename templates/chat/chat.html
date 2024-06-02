@@ -1,0 +1,222 @@
+{% extends "base/Chat_Base.html" %}
+
+
+{% block content %}
+
+<div class="row">
+  <div class="col-lg-8 col-md-10 col-sm-12 mx-auto shadow chat-box rounded">
+    <div class="row">
+      <div class="col-lg-4 ">
+        {% include 'chat/user_list.html' %}
+      </div>
+      <div class="col-lg-8 chat px-3">
+        <div id="chat-log" class="chat-log scroll">
+          {% comment %} I can Directly add from Messages with the help of JavaScript, I will send 
+          The list of or array of message and loop in js to paste the value in here {% endcomment %}
+          {% for msg in message %}
+          
+          <div 
+            class="message mb-2 {% if msg.sender_message == sender %}right{% else %}left{% endif %}"
+            
+            >
+              {% if msg.sender_message == sender and msg.receiver_message == receiver %}
+              <div class="avatar"><img src="{{ sender.profile_picture.url }}" alt="Avatar" class="avatar"></div>
+              <span  class="d-block">{{ msg.text_body }}</span>
+              
+              {% elif msg.sender_message == receiver and msg.receiver_message == sender %}
+              <div class="avatar"><img src="{{ receiver.profile_picture.url }}" alt="Avatar" class="avatar"></div>
+              <span  class="d-block">{{ msg.text_body }}</span>
+              
+              {% endif %}
+              
+          </div>
+              {% endfor %}
+       
+        </div>
+        <form method="post" class="input-box d-flex w-100" id="message_form">
+            {% csrf_token %}
+            <input type="text" id="chat-message-input" class="form-control" name="message_body"x``>
+            <button id="chat-message-submit" onclick="" type="submit">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block block_js %}
+<script>
+
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+  }
+
+  //getting the csrftoken as django need this
+  const csrftoken = getCookie('csrftoken');
+
+
+  
+  //Urls For fetching the data from the function of Views.py
+  const url = "{% url 'send-message' friend %}"
+  const receiver_url = "{% url 'recieve-message' friend %}"
+  
+  const form = document.getElementById("message_form")
+  form.addEventListener("submit", preventReloading)
+
+
+/*
+* This function will prevent the default reloading of the chat page 
+* And call the postJson function which fetch data from the function in Views.py
+*/
+  function preventReloading(e){
+    e.preventDefault()
+  
+    const body_message = document.getElementById("chat-message-input").value 
+    
+    
+
+    postJSON(body_message);
+
+
+
+  
+  }
+
+
+  
+/*
+*function data from the Views.py
+*And create a message box for sender
+*/
+  async function postJSON(data) {
+    try {
+      
+      const response = await fetch(url, {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+          'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify(data),
+      });
+  
+      const result = await response.json();
+
+      if (result != " "){
+        
+        let chat_div = document.getElementById("chat-log")
+        let message_div = document.createElement("div")
+        message_div.classList.add("message", "mb-2", "right")
+  
+        let avatar_container = document.createElement("div")
+        avatar_container.classList.add("avatar")
+  
+        let avatar_pic = document.createElement("img")
+        avatar_pic.src = "{{ sender.profile_pic.url }}"
+        avatar_pic.classList.add("avatar")
+  
+        let message_span = document.createElement("span")
+        message_span.classList.add("d-block")
+        message_span.textContent = data;
+  
+        avatar_container.append(avatar_pic)
+        message_div.append(avatar_container)
+        message_div.append(message_span)
+        chat_div.append(message_div)
+  
+        document.getElementById("chat-message-input").value = "";
+
+      }
+
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+  
+  setInterval(checkReceiveMessage, 1000)
+  
+  //counter for determining if the there is any new message or not
+  let counter = {{ last_message_index }};
+
+  
+  /*
+  *function will be called are after every second to check if there is new message instance or not
+  *if True {create a message box for receiving}
+  *else {do nothing}
+  */
+  async function checkReceiveMessage(){
+    try {
+      
+      const response = await fetch(receiver_url, {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+          'X-CSRFToken': csrftoken,
+        },
+        
+      });
+  
+      const result = await response.json();
+      
+
+      if(result.length == 0){}
+
+      else{
+
+        let last_message = result[result.length-1]
+
+        if (counter == result.length){}
+
+        else{
+
+          let chat_div = document.getElementById("chat-log")
+          let message_div = document.createElement("div")
+          message_div.classList.add("message", "mb-2", "left")
+    
+          let avatar_container = document.createElement("div")
+          avatar_container.classList.add("avatar")
+    
+          let avatar_pic = document.createElement("img")
+          avatar_pic.src = "{{ receiver.profile_pic.url }}"
+          avatar_pic.classList.add("avatar")
+    
+          let message_span = document.createElement("span")
+          message_span.classList.add("d-block")
+          message_span.textContent = last_message;
+    
+          avatar_container.append(avatar_pic)
+          message_div.append(avatar_container)
+          message_div.append(message_span)
+          chat_div.append(message_div)
+
+          
+        }
+      }
+
+      //Needed reassinged the counter with the updated length of the message array.
+      counter = result.length
+
+    }
+
+    catch (error) {
+      console.error("Error:", error);
+    }
+  }
+  
+  {% comment %} const data = { username: "example" }; {% endcomment %}
+
+</script>
+{% endblock block_js %}

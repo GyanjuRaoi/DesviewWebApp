@@ -1,0 +1,81 @@
+{% extends "base/home_base.html" %}
+
+{% block right %}
+
+<div class="questions">
+    <div class="question">
+        <div class="head">
+            <div class="user">
+                <div class="profile-photo">
+                    <img src="{{ question.user_id.profile.profile_picture.url }}" alt="image">
+                </div>
+                <div class="info">
+                    <h5>{{ question.user_id.username }}</h5>
+                    <small class="text-muted">@{{ question.user_id.profile.profession }}</small>
+                </div>
+            </div>
+            <div class="dropdown">
+                <label ><i class="uil uil-align-justify"></i></label>
+                <div class="dropdown-content">
+                    <a href="#">Update</a>
+                    <a href="#">Delete</a>
+                  </div>
+            </div>
+        </div>
+        <!-- Question body -->
+        <div class="question-body">
+            <div class="title">
+                <h3>{{question.title}}</h3>
+            </div>
+
+            <div>
+                <p>{{ question.description }}</p>
+            </div>
+        </div>
+        <!-- End Question -->
+        {% if question.image %}
+        
+        <div class="photo">
+            <img src="{{ question.image.url }}" alt="Image">
+        </div>
+        {% endif %}
+
+        <div class="action-buttons">
+        
+            <a href="{% url 'home-url' %}">Return</a>
+        
+        </div>
+        </div>
+        <div class="question-comment">
+    
+            {% for ans in answers %}
+    
+            <div class="question">
+                <div class="head">
+                    <div class="user">
+                        <div class="profile-photo">
+                            <img src="{{ ans.user.profile.profile_picture.url }}" alt="image">
+                        </div>
+                        <div class="info">
+                            <h5>{{ ans.user.username }}</h5>
+                        </div>
+                    </div>
+                </div>
+                <!-- Question body -->
+                <div class="question-body">
+                    <div>
+                        <p>{{ ans.content }}</p>
+                    </div>
+                    <!-- End Question -->
+                    {% if ans.image_comment %}
+                    
+                    <div class="photo">
+                        <img src="{{ ans.image_comment.url }}" alt="Image">
+                    </div>
+                    {% endif %}
+                </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock right %}

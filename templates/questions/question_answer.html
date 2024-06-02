@@ -1,0 +1,16 @@
+{% extends "base/questionbase.html" %}
+
+{%block content%}
+    <div class="from-group">
+        <form method="POST" enctype="multipart/form-data">
+            <a href="{% url 'home-url' %}"><i class="uil uil-previous"></i>Return</a>
+            {% csrf_token %}
+            {{form.as_div}}
+            <input type="hidden" name="question_id" value="{{ question_id }}">
+        <div>
+
+            <button class="btn btn-primary">Answer</button>
+        </div>
+        </form>
+    </div>
+{% endblock content %}

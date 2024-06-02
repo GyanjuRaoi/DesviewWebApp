@@ -1,0 +1,72 @@
+
+
+{% for question in questions %}
+<!-- Right -->
+    <!-- Questions -->
+    <div class="questions">
+        <div class="question">
+            <div class="head">
+                <div class="user">
+                    <div class="profile-photo">
+                        <img src="{{ question.user_id.profile.profile_picture.url }}" alt="image">
+                    </div>
+                    <div class="info">
+                        <h5>{{ question.user_id.username }}</h5>
+                        <small class="text-muted">@{{ question.user_id.profile.profession }}</small>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <label ><i class="uil uil-align-justify"></i></label>
+                    <div class="dropdown-content">
+                        {% if user == question.user_id %}
+                        
+                        <a href="{% url "question-update" question.id %}">Update</a>
+                        <a href="{% url "question-delete" question.id %}">Delete</a>
+                        
+                        {% endif %}
+                      </div>
+                </div>
+            </div>
+            <!-- Question body -->
+            <div class="question-body">
+                <div class="title">
+                    <h3>{{question.title}}</h3>
+                </div>
+
+                <div>
+                    <p>{{ question.description }}</p>
+                </div>
+            </div>
+            <!-- End Question -->
+            {% if question.image %}
+            
+            <div class="photo">
+                <img src="{{ question.image.url }}" alt="Image">
+            </div>
+            {% endif %}
+
+            <div class="action-buttons">
+                        
+            <div class="comment" id="comment-popup"  >
+                    <a href="{% url 'comment-view' question.id %}"><i class="uil uil-comment-alt-lines"></i>Comment</a>   
+                </div>
+                <!-- Answer -->
+                {% if user.is_authenticated %}
+                
+                <div class="answer">
+                    <a href="{% url "answer-question" question.id %}">
+
+                        <span><i class="uil uil-corner-up-left-alt"></i></span>Answer
+
+                    </a>
+                </div>
+                
+                {% endif %}
+            </div>
+            </div>
+        </div>
+        <!-- End of Questions -->
+{% endfor %}
+
+
+

@@ -17,8 +17,8 @@
             <div class="dropdown">
                 <label ><i class="uil uil-align-justify"></i></label>
                 <div class="dropdown-content">
-                    <a href="#">Update</a>
-                    <a href="#">Delete</a>
+                    <a href="{% url 'question-update' question.id %}">Update</a>
+                    <a href="{% url 'question-delete' question.id %}">Delete</a>
                   </div>
             </div>
         </div>

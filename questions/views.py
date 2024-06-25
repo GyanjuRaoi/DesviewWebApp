@@ -36,10 +36,14 @@ class UpdateQuestion(UpdateView):
 
     def test_func(self):
         question = self.get_object()
+        return self.request.user == question.user_id
 
-        if self.request.user == question.user_id:
-            return True
-        return False
+    def get_initial(self):
+        initial = super().get_initial()
+        question = self.get_object()
+        initial['title'] = question.title
+        initial['description'] = question.description
+        return initial
 
 class DeleteQuestion(DeleteView):
     model = Question

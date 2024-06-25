@@ -1,15 +1,36 @@
 {% extends "base/questionbase.html" %}
 
 {%block content%}
-    <div class="from-group">
-        <form method="POST" enctype="multipart/form-data">
-            <a href="{% url 'home-url' %}"><i class="uil uil-previous"></i>Return</a>
-            {% csrf_token %}
-            {{form.as_div}}
-        <div>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">Create Question</div>
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+                {% csrf_token %}
 
-            <button class="btn btn-primary">Create</button>
+                <!-- Title Field -->
+                <div class="form-group">
+                    <label for="id_title">Title:</label>
+                    <input type="text" name="title" maxlength="100" required id="id_title" class="form-control" placeholder="Title">
+                </div>
+
+                <!-- Description Field -->
+                <div class="form-group">
+                    <label for="id_description">Description:</label>
+                    <textarea name="description" cols="40" rows="10" required id="id_description" class="form-control" placeholder="Add your description here..."></textarea>
+                </div>
+
+                <!-- Image Upload Field -->
+                <div class="form-group">
+                    <label for="id_image">Image:</label>
+                    <input type="file" name="image" accept="image/*" id="id_image" class="form-control-file">
+                </div>
+
+                <div>
+                    <button class="btn btn-primary">Create</button>
+                </div>
+            </form>
         </div>
-        </form>
     </div>
+</div>
 {% endblock content %}

@@ -1,4 +1,4 @@
-manage.py
+
 #Ignore pycache
 __pycache__/
 migrations/

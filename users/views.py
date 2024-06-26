@@ -28,8 +28,7 @@ def login_user(request):
             login(request, user)
             return redirect('home-url')
         else:
-            messages.warning('Please Check Username or Password')
-            return redirect('logoin-user')
+            messages.warning(request, 'Please Check Username or Password')
 
     return render(request, 'users/login.html')
 

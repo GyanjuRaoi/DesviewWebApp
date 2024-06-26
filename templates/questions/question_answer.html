@@ -1,16 +1,32 @@
 {% extends "base/questionbase.html" %}
 
 {%block content%}
-    <div class="from-group">
-        <form method="POST" enctype="multipart/form-data">
-            <a href="{% url 'home-url' %}"><i class="uil uil-previous"></i>Return</a>
-            {% csrf_token %}
-            {{form.as_div}}
-            <input type="hidden" name="question_id" value="{{ question_id }}">
-        <div>
 
-            <button class="btn btn-primary">Answer</button>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">Delete Question</div>
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- Answer Field -->
+                <div class="form-group">
+                    <label for="id_description">Answer:</label>
+                    <textarea name="content" cols="40" rows="10" required id="id_description" class="form-control" placeholder="Add your answer here...">{{ form.initial.description }}</textarea>
+                </div>
+                <!-- Image field -->
+                <div class="form-group">
+                    <label for="id_image">Image:</label>
+                    <input type="file" name="image_comment" accept="image/*" id="id_image" class="form-control-file">
+                </div>
+
+                <input type="hidden" name="question_id" value="{{ question_id }}">
+            <!-- button -->
+            <div>
+    
+                <button class="btn btn-primary">Answer</button>
+            </div>
+            </form>
         </div>
-        </form>
     </div>
+</div> 
 {% endblock content %}

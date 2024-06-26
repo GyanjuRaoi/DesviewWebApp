@@ -1,1 +1,4 @@
 manage.py
+_pycache_
+migrations
+.gitignore

@@ -39,3 +39,18 @@
     z-index: 1000;
     padding-top: 80px;
 }
+
+.profile-photo {
+  display: flex;
+  flex-direction: row;
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.profile-photo h5 {
+  color: #5f84a2;
+}
+
+.custome-header {
+  height: 80px;
+}

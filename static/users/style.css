@@ -1,0 +1,31 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7f6;
+    margin-top: 100px;
+}
+
+.welcome-section {
+    background: linear-gradient(to right top, #845EC2, #D65DB1);
+    color: white;
+    padding: 50px;
+    height: 25rem;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    text-align: center;
+    align-content: center;
+}
+.login-section {
+    background-color: white;
+    padding: 50px;
+    height: 25rem;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.login-btn {
+    background-color: #845EC2;
+    border: none;
+}
+.login-btn:hover {
+    background-color: #644791;
+}

@@ -3,43 +3,28 @@
 
 {% block content %}
 
-<div class="row">
-  <div class="col-lg-8 col-md-10 col-sm-12 mx-auto shadow chat-box rounded">
-    <div class="row">
-      <div class="col-lg-4 ">
-        {% include 'chat/user_list.html' %}
-      </div>
-      <div class="col-lg-8 chat px-3">
-        <div id="chat-log" class="chat-log scroll">
-          {% comment %} I can Directly add from Messages with the help of JavaScript, I will send 
-          The list of or array of message and loop in js to paste the value in here {% endcomment %}
-          {% for msg in message %}
-          
-          <div 
-            class="message mb-2 {% if msg.sender_message == sender %}right{% else %}left{% endif %}"
-            
-            >
-              {% if msg.sender_message == sender and msg.receiver_message == receiver %}
-              <div class="avatar"><img src="{{ sender.profile_picture.url }}" alt="Avatar" class="avatar"></div>
-              <span  class="d-block">{{ msg.text_body }}</span>
-              
-              {% elif msg.sender_message == receiver and msg.receiver_message == sender %}
-              <div class="avatar"><img src="{{ receiver.profile_picture.url }}" alt="Avatar" class="avatar"></div>
-              <span  class="d-block">{{ msg.text_body }}</span>
-              
-              {% endif %}
-              
+<div class="col-md-9 col-lg-10 chat-window p-3">
+  <div class="chat-messages p-3" id="chat-log">
+      {% for msg in message %}
+      <div class="message mb-2 {% if msg.sender_message == sender %}right{% else %}left{% endif %}">
+          <div class="d-flex align-items-start">
+              <img src="{% if msg.sender_message == sender %}{{ sender.profile_picture.url }}{% else %}{{ receiver.profile_picture.url }}{% endif %}" class="rounded-circle" alt="User">
+              <div class="ml-3">
+                  <div class="message-content bg-{% if msg.sender_message == sender %}primary text-white{% else %}light{% endif %} p-2 rounded">
+                      <p>{{ msg.text_body }}</p>
+                  </div>
+                  <small>{{ msg.timestamp }}</small>
+              </div>
           </div>
-              {% endfor %}
-       
-        </div>
-        <form method="post" class="input-box d-flex w-100" id="message_form">
-            {% csrf_token %}
-            <input type="text" id="chat-message-input" class="form-control" name="message_body"x``>
-            <button id="chat-message-submit" onclick="" type="submit">Send</button>
-        </form>
       </div>
-    </div>
+      {% endfor %}
+  </div>
+  <div class="chat-input p-3 border-top">
+      <form method="post" class="input-box d-flex w-100" id="message_form">
+          {% csrf_token %}
+          <input type="text" id="chat-message-input" class="form-control" name="message_body">
+          <button id="chat-message-submit" type="submit">Send</button>
+      </form>
   </div>
 </div>
 

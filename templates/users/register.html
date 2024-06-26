@@ -1,8 +1,12 @@
 {% extends "base/users_base.html" %}
 
 {% block content %}
-
-    <div class="from-group no-margin">
+<div class="container" >
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6 welcome-section d-none d-md-block" style="height: 40rem;">
+            <h2>Sing Up!</h2>
+        </div>
+    <div class="col-md-6 login-section" style="height: 40rem; line-height: 1.5;">
         <form class="form-signin" method="post">
             <h4>Register here</h4>
             {% if messages %}
@@ -11,13 +15,14 @@
 
             {% csrf_token %}
             
-            {{form}}
-
-            <div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            <div>    
-            
+            {{ form }}
+            <br>
+            <button type="submit" class="btn btn-primary login-btn">Sign up</button>
+            <p>Already have account? <a href="{% url 'register-user' %}">Login in</a></p>
         </form>
     </div>
+    </div>
+</div>
+
 
 {% endblock content %}

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse, reverse_lazy
 from .forms import RegisterForm
 from django.contrib import messages
 from django.views.generic.edit import CreateView, FormView
@@ -15,6 +16,9 @@ API_URL = 'https://emailvalidation.abstractapi.com/v1/?api_key=' + API_KEY
 class RegisterView(CreateView, FormView):
     template_name = 'users/register.html'
     form_class = RegisterForm
+    success_url = reverse_lazy('login-user') 
+    def get_success_url(self):
+        return self.success_url
 
 # Function / Function based views
 def login_user(request):
@@ -34,7 +38,6 @@ def login_user(request):
 
 def logout_user(request):
     logout(request)
-
     return redirect('home-url')
             
 def add_friend_view(request, profile_id):

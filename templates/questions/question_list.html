@@ -1,19 +1,15 @@
 <!-- Right -->
 <!-- Questions -->
-<div class="card-header">Top Question</div>
+<div class="card-header custome-header">Questions</div>
         {% for question in questions %}
-        <a href="{% url 'comment-view' question.id %}" class="card">
-        <div class="card-body">
-                <div class="user">
-                    <div class="profile-photo">
-                        <img src="{{ question.user_id.profile.profile_picture.url }}" alt="image">
-                        <h5 class="card-text">{{ question.user_id.username }}</h5>
-                        <p class="card-text">@{{ question.user_id.profile.profession }}</p>
-                    </div>
-                    <div class="info">
-                    </div>
-                </div>
-                <h5 class="card-title">{{question.title}}</h5>
+        <a href="{% url 'comment-view' question.id %}" class="card" style="text-decoration: none;">
+            
+            <div class="profile-photo">
+                    <img src="{{ question.user_id.profile.profile_picture.url }}" alt="image">
+                    <h5 class="card-text">{{ question.user_id.username }}</h5>
+            </div>
+        <div class="card-body">   
+            <h6 class="card-title">{{question.title}}</h6>
         </div>
         </a>
         {% endfor %}

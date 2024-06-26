@@ -1,4 +1,6 @@
 manage.py
-_pycache_
-migrations
+#Ignore pycache
+__pycache__/
+migrations/
+
 .gitignore
